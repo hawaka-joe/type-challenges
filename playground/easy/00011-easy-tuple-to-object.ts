@@ -20,8 +20,12 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TupleToObject<T extends readonly any[]> = any
+type TupleToObject<T extends readonly (string | number | symbol)[]> = {
+  [K in T[number]]: K
+}
 
+type test = TupleToObject<typeof tuple>
+type test1 = (typeof tuple)[number]
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
 

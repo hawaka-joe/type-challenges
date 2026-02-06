@@ -20,7 +20,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyExclude<T, U> = any
+/**
+ * Test 类型为 string
+ */
+type Test = string | never
+
+/**
+ * TODO:
+ * 这里使用了联合类型的分发特性
+ * MyExclude<'a' | 'b' | 'c', 'a'> = MyExclude<'a', 'a'> | MyExclude<'b', 'b'> | MyExclude<'c', 'c'>
+ */
+type MyExclude<T, U> = T extends U ? never : T
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
