@@ -20,7 +20,25 @@
 
 /* _____________ Your Code Here _____________ */
 
-type IsUnion<T> = any
+// type IsUnion<T, B = T> = T extends B ? [B] extends [T] ? false : true : never;
+type IsUnion1<T, B = T> = T extends B
+  ? [B] extends [T]
+      ? false
+      : true
+  : never
+
+type IsUnion<T, B = T> = [T] extends [never]
+  ? false
+  : T extends B
+    ? [B] extends [T] ? false : true
+    : never
+
+// type IsUnionImpl<T, C extends T = T> = (T extends T ? (C extends T ? true : false) : false) extends true ? false : true
+// type IsUnion<T> = IsUnionImpl<T>
+
+type a = 'a' | 1
+type a1 = a extends a ? true : false
+type a2 = [never] extends [never] ? true : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

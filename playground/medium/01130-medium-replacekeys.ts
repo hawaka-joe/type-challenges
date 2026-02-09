@@ -45,7 +45,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type ReplaceKeys<U, T, Y> = any
+type ReplaceOneObj<U, T, Y> = {
+  [v in keyof U]: v extends T ? (v extends keyof Y ? Y[v] : never) : U[v]
+}
+
+type ReplaceKeys<U, T, Y> = U extends any ? ReplaceOneObj<U, T, Y> : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

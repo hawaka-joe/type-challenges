@@ -24,7 +24,45 @@
 
 /* _____________ Your Code Here _____________ */
 
-type KebabCase<S> = any
+type UpperCaseToLowerCase = {
+  A: 'a'
+  B: 'b'
+  C: 'c'
+  D: 'd'
+  E: 'e'
+  F: 'f'
+  G: 'g'
+  H: 'h'
+  I: 'i'
+  J: 'j'
+  K: 'k'
+  L: 'l'
+  M: 'm'
+  N: 'n'
+  O: 'o'
+  P: 'p'
+  Q: 'q'
+  R: 'r'
+  S: 's'
+  T: 't'
+  U: 'u'
+  V: 'v'
+  W: 'w'
+  X: 'x'
+  Y: 'y'
+  Z: 'z'
+}
+
+type UpperCaseLetter = keyof UpperCaseToLowerCase
+
+type KebabCase<S extends string, T extends string = ''> = S extends `${infer X}${infer Y}` ?
+    (X extends UpperCaseLetter ?
+        (T extends '' ? KebabCase<Y, `${UpperCaseToLowerCase[X]}`> :
+          KebabCase<Y, `${T}-${UpperCaseToLowerCase[X]}`>) :
+      KebabCase<Y, `${T}${X}`>) :
+  T
+
+type T = KebabCase<'FooBarBaz'>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

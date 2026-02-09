@@ -18,7 +18,14 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Replace<S extends string, From extends string, To extends string> = any
+// type NoEmptyReplace<S extends string, From extends string, To extends string> = S extends `${infer X}${From}${infer Y}` ? `${X}${To}${Y}` : S
+// type Replace<S extends string, From extends string, To extends string> = From extends '' ? S : NoEmptyReplace<S, From, To>
+
+type Replace<S extends string, From extends string, To extends string> = From extends ''
+  ? S
+  : S extends `${infer R1}${From}${infer R2}`
+    ? `${R1}${To}${R2}`
+    : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

@@ -19,7 +19,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type StringToUnion<T extends string> = any
+const arr = [1, 3, 4] as const
+type a = (typeof arr)[number]
+
+type StringToUnion<T extends string, Ctr extends string[] = []> = T extends `${infer X}${infer Y}` ? StringToUnion<Y, [...Ctr, X]> : Ctr[number]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

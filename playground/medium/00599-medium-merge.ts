@@ -27,7 +27,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Merge<F, S> = any
+type uniType<F, S> = keyof F | keyof S
+
+type Merge<F, S> = {
+  [X in uniType<F, S>]: X extends keyof S ? S[X] : (X extends keyof F ? F[X] : never)
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
