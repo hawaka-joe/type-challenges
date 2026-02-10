@@ -19,7 +19,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MinusOne<T extends number> = any
+type Pop<T extends any[]> = T extends [...infer head, any] ? head : never; 
+
+type MinusOne<T extends number, A extends any[] = []> = A['length'] extends T
+  ? Pop<A>['length']
+  : MinusOne<T, [...A, 0]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

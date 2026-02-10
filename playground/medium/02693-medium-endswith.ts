@@ -20,7 +20,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type EndsWith<T extends string, U extends string> = any
+type Reverse<T extends string, Ctr extends string = ''> = T extends '' ? Ctr : (T extends `${infer X}${infer Y}` ? Reverse<Y, `${X}${Ctr}`> : never)
+type StartsWith<T extends string, U extends string> = T extends `${U}${string}` ? true : false
+
+type EndsWith<T extends string, U extends string> = StartsWith<Reverse<T>, Reverse<U>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

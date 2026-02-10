@@ -18,7 +18,25 @@
 
 /* _____________ Your Code Here _____________ */
 
-type DropChar<S, C> = any
+type DropChar1<
+  S extends string,
+  C extends string,
+  Ctr extends string = '',
+> = S extends ''
+  ? Ctr
+  : S extends `${infer Left}${infer Right}`
+    ? Left extends C
+      ? DropChar1<Right, C, Ctr>
+      : DropChar1<Right, C, `${Ctr}${Left}`>
+    : never
+
+type DropChar<S extends string, C extends string> = S extends `${infer F}${infer R}`
+  ? F extends C
+    ? DropChar<R, C>
+    : `${F}${DropChar<R, C>}`
+  : S
+
+type test = DropChar<'butter fly!', ' '>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

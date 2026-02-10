@@ -23,7 +23,9 @@
 
 /* _____________ Your Code Here _____________ */
 
-type PickByType<T, U> = any
+type PickByType<T, U> = {
+  [K in keyof T as (true extends Equal<U, T[K]> ? K : never)]: T[K]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
