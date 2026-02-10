@@ -27,7 +27,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type RequiredByKeys<T, K> = any
+type IntersectionToObj<T> = {
+  [K in keyof T]: T[K]
+}
+
+type RequiredByKeys<T, K extends keyof T = keyof T> = IntersectionToObj<
+  {
+    [Key in keyof T as Key extends K ? Key : never]-?: T[Key]
+  } & {
+    [Key in keyof T as Key extends K ? never : Key]: T[Key]
+  }
+>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
