@@ -16,9 +16,19 @@
   > View on GitHub: https://tsch.js.org/3188
 */
 
+/* _____________ What I've learned _____________ */
+/*
+  ts * string 用于收紧类型，提供信息告诉编译期 K 是合法的类型，因为只有 string、number、symbol 是合法的键类型
+  因此F & PropertyKey也是可以的
+*/
+
 /* _____________ Your Code Here _____________ */
 
-type TupleToNestedObject<T, U> = any
+type TupleToNestedObject<T, U> = T extends [infer F, ...infer R] ?
+    {
+      [K in F & string]: TupleToNestedObject<R, U>
+    }
+  : U
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

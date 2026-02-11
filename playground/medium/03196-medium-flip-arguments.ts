@@ -21,7 +21,18 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlipArguments<T> = any
+type Reverse<T extends unknown[]> = T extends [infer L, ...infer R] ? [...Reverse<R>, L] : []
+
+// type FlipArguments<T extends Function> = T extends ((... infer Args) => infer R) ? (...Reverse<Args> => R) : never;
+type FlipArguments<T extends Function> = T extends ((...args: infer Args) => infer R) ? (...args: Reverse<Args>) => R : never
+
+/* _____________ What I've learned _____________ */
+/*
+  type FlipArguments<T extends Function> = T extends ((... infer Args) => infer R) ? (...Reverse<Args> => R) : never;
+  type FlipArguments<T extends Function> = T extends ((...args: infer Args) => infer R) ? (...args: Reverse<Args>) => R : never
+
+  使用 infer 接收函数参数时，应使用...args: infer Args 这种形式
+*/
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

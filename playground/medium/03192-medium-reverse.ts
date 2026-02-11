@@ -19,7 +19,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Reverse<T> = any
+type Reverse<T extends unknown[]> = T extends [infer L, ...infer R] ? [...Reverse<R>, L] : []
+
+// 递归写法
+type Reverse1<T extends unknown[], Ctr extends any[] = []> = T extends [] ? Ctr : T extends [infer L, ...infer R] ? Reverse1<R, [L, ...Ctr]> : never
+
+/* _____________ What I've learned _____________ */
+/*
+  递归写法已经很熟练，需要加强非递归写法的熟练度
+*/
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
