@@ -21,7 +21,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type FlattenDepth = any
+type HasNested<T extends any[]> = T extends [infer X, ...infer Rest]
+  ? X extends any[]
+  ? true
+  : HasNested<Rest>
+  : false
+
+type FlattenOnce<T extends unknown[]> = T extends [infer X, ...infer Y] ? (X extends any[] ? [...X, ...FlattenOnce<Y>] : [X, ...FlattenOnce<Y>]) : []
+
+type NTimes<N, Ctr extends string[], Cnt extends string[] = []> = Cnt['length'] extends N ? Ctr : HasNested<Ctr> extends false ? Ctr : NTimes<N, FlattenOnce<Ctr>, [...Cnt, 'a']>
+
+type FlattenDepth<S extends any[], N extends number = 1> = NTimes<N, S>
+
+type test = FlattenDepth<[1, [2]]>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
