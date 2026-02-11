@@ -25,13 +25,14 @@
 
 type RemoveIndexSignature<T> = {
   [K in keyof T as (
+    // 核心逻辑：
+    // 如果 K 是具体的字面量（如 'foo'），那么 string extends 'foo' 为 false
+    // 如果 K 是索引签名（如 string），那么 string extends string 为 true
     string extends K ? never :
       number extends K ? never :
         symbol extends K ? never : K
   )]: T[K]
 }
-
-type test = RemoveIndexSignature<Foo>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

@@ -34,7 +34,17 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyReadonly2<T, K> = any
+type MyPick<T, K extends keyof T> = {
+  [V in K]: T[V]
+}
+
+type MyReadonly<T> = {
+  readonly [K in keyof T]: T[K];
+}
+
+type MyReadonly2<T, K extends keyof T = keyof T> = MyReadonly<MyPick<T, K>> & {
+  [V in keyof T as (V extends K ? never : V)]: T[V]
+}
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'

@@ -20,7 +20,10 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TupleToUnion<T> = any
+export type TupleToUnion<T> = T extends readonly (infer ITEMS)[] ? ITEMS : never
+
+const a = ['1', '23'] as const
+type a1q = TupleToUnion<typeof a>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
