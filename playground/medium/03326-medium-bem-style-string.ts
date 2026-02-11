@@ -16,7 +16,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type BEM<B extends string, E extends string[], M extends string[]> = any
+/* _____________ What I've learned _____________ */
+/*
+  模板字面量类型会自动分发联合类型，生成所有可能的组合
+  type Example = `${A}${B}`
+  其中 A = 'a' | 'b', B = '1' | '2'
+  结果: 'a1' | 'a2' | 'b1' | 'b2'
+*/
+
+type BEM<B extends string, E extends string[], M extends string[]> = `${B}${E extends [] ? '' : `__${E[number]}`}${M extends [] ? '' : `--${M[number]}`}`
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
