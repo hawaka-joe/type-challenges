@@ -21,10 +21,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Fibonacci<T extends number> = any
+type DeepPartial<T> = T extends object
+  ? {
+      [K in keyof T]?: DeepPartial<T[K]>;
+    }
+  : T
+
+// 1 1 2 3 5
+type Fibonacci<T extends number, NO extends 1[] = [1, 1, 1], NO_1 extends 1[] = [1], NO_2 extends 1[] = [1]> =
+    T extends 1 | 2 ? 1 : (NO['length'] extends T ? [...NO_1, ...NO_2]['length'] : Fibonacci<T, [...NO, 1], [...NO_1, ...NO_2], NO_1>)
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
+
+type test = Fibonacci<3>
 
 type cases = [
   Expect<Equal<Fibonacci<1>, 1>>,
